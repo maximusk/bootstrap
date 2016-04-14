@@ -157,8 +157,18 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap', 'ui.bootstrap.p
           }
         };
 
-        // moved from template to fix issue #2280
-        element.on('click', scope.close);
+        var pointerDownElement;
+        element.on('mousedown', function (event) {
+          pointerDownElement = event.target;
+        });
+
+        element.on('mouseup', function (event) {
+          var element = event.target;
+
+          if (element === pointerDownElement) {
+            scope.close(event);
+          }
+        });
 
         // This property is only added to the scope for the purpose of detecting when this directive is rendered.
         // We can detect that by using this property in the template associated with this directive and then use
